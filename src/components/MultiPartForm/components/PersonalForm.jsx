@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, TextField, Switch, FormControlLabel } from "@mui/material";
 
-const RegisterForm = () => {
+const PersonalForm = (props) => {
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const [cpf, setCPF] = useState("");
@@ -120,11 +120,11 @@ const RegisterForm = () => {
         label="Novidades"
       />
 
-      <Button type="submit" variant="contained">
-        Cadastrar
+      <Button type='button' variant="contained" onClick={props.nextStep}>
+        Proximo Passo
       </Button>
     </form>
   );
 };
 
-export default RegisterForm;
+export default PersonalForm;

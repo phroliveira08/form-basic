@@ -1,4 +1,4 @@
-import RegisterForm from "./components/RegisterForm/RegisterForm";
+import MultiPartForm from "./components/MultiPartForm/MultiPartForm";
 import { Container, Typography } from "@mui/material";
 import "fontsource-roboto";
 
@@ -8,7 +8,7 @@ const App = () => {
       <Typography variant="h3" component="h3" align="center">
         Formulário de Cadastro
       </Typography>
-      <RegisterForm />
+      <MultiPartForm />
     </Container>
   );
 };
