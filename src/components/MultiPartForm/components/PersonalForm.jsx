@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, TextField, Switch, FormControlLabel } from "@mui/material";
+import useErros from "../../../hooks/useErros";
 
 const PersonalForm = (props) => {
   const [name, setName] = useState("");
@@ -9,12 +10,7 @@ const PersonalForm = (props) => {
   const [sale, setSale] = useState(true);
   const [news, setNews] = useState(true);
 
-  const [errors, setErrors] = useState({
-    cpf: {
-      valid: true,
-      message: "",
-    }
-  });
+  const [errors, validateField] = useErros()
 
   const functionState = {
     name: setName,
@@ -38,38 +34,15 @@ const PersonalForm = (props) => {
     setValue(checked);
   };
 
-  const validateCPF = () => {
-    let valid = true;
-    let message = "";
-    if (cpf.length !== 11) {
-      valid = false;
-      message = "O CPF precisa ter 11 digitos";
-    }
-    setErrors({
-      ...errors,
-      cpf: {
-        valid,
-        message,
-      }
-    });
-  };
-
-  const submitForm = (e) => {
-    e.preventDefault();
-    console.log("data", {
-      name,
-      lastName,
-      cpf,
-      sale,
-      news,
-    });
-  };
-
   return (
-    <form onSubmit={submitForm}>
+    <form onSubmit={(e) => {
+      e.preventDefault()
+      props.nextStep({ name, lastName, cpf, sale, news })
+    }}>
       <TextField
         id="name"
         value={name}
+        required
         onChange={handleTextField}
         variant="outlined"
         label="Nome"
@@ -79,6 +52,7 @@ const PersonalForm = (props) => {
       <TextField
         id="lastname"
         value={lastName}
+        required
         onChange={handleTextField}
         variant="outlined"
         label="Sobrenome"
@@ -88,7 +62,8 @@ const PersonalForm = (props) => {
       <TextField
         id="cpf"
         value={cpf}
-        onBlur={validateCPF}
+        required
+        onBlur={validateField}
         onChange={handleTextField}
         error={!errors.cpf.valid}
         helperText={errors.cpf.message}
@@ -120,7 +95,7 @@ const PersonalForm = (props) => {
         label="Novidades"
       />
 
-      <Button type='button' variant="contained" onClick={props.nextStep}>
+      <Button type='submit' variant="contained">
         Proximo Passo
       </Button>
     </form>

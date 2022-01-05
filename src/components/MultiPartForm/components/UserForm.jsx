@@ -1,17 +1,33 @@
 import React, { useState } from "react";
-import { TextField, Button, Step } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 
 const UserForm = (props) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const functionState = {
+    email: setEmail,
+    password: setPassword
+  };
+
+  const handleTextField = (e) => {
+    const { id, value } = e.target;
+    const setValue = functionState[id];
+
+    setValue(value);
+  };
+
   return (
-    <form>
+    <form onSubmit={(e) => {
+      e.preventDefault()
+      props.nextStep({ email, password })
+    }}>
       <TextField
         id="email"
         value={email}
         type='email'
-        //onChange={handleTextField}
+        required
+        onChange={handleTextField}
         variant="outlined"
         label="Email"
         fullWidth
@@ -21,13 +37,14 @@ const UserForm = (props) => {
         id="password"
         value={password}
         type='password'
-        //onChange={handleTextField}
+        required
+        onChange={handleTextField}
         variant="outlined"
         label="Senha"
         fullWidth
         margin="normal"
       />
-      <Button type='button' variant="contained" onClick={props.nextStep}>
+      <Button type='submit' variant="contained">
         Proximo Passo
       </Button>
     </form>

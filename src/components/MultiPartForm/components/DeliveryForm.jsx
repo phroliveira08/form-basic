@@ -1,23 +1,48 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { TextField, Button } from '@mui/material'
 
 const DeliveryForm = (props) => {
+  const [cep, setCEP] = useState("");
+  const [address, setAddress] = useState("");
+  const [numberHouse, setNumberHouse] = useState("");
+  const [state, setState] = useState("");
+  const [city, setCity] = useState("");
+
+  const functionState = {
+    cep: setCEP,
+    address: setAddress,
+    numberHouse: setNumberHouse,
+    state: setState,
+    city: setCity
+  };
+
+  const handleTextField = (e) => {
+    const { id, value } = e.target;
+    const setValue = functionState[id];
+
+    setValue(value);
+  };
   return (
-    <form>
+    <form onSubmit={(e) => {
+      e.preventDefault()
+      props.nextStep({ cep, address, numberHouse, state, city })
+    }}>
       <TextField
         id="cep"
-        value='{cep}'
+        value={cep}
         type='number'
-        //onChange={handleTextField}
+        required
+        onChange={handleTextField}
         variant="outlined"
         label="CEP"
         margin="normal"
       />
       <TextField
         id="address"
-        value='{address}'
+        value={address}
         type='text'
-        //onChange={handleTextField}
+        required
+        onChange={handleTextField}
         variant="outlined"
         label="Endereço"
         fullWidth
@@ -25,32 +50,35 @@ const DeliveryForm = (props) => {
       />
       <TextField
         id="numberHouse"
-        value='{numberHouse}'
+        value={numberHouse}
         type='number'
-        //onChange={handleTextField}
+        required
+        onChange={handleTextField}
         variant="outlined"
         label="Número"
         margin="normal"
       />
       <TextField
         id="state"
-        value='{state}'
+        value={state}
         type='text'
-        //onChange={handleTextField}
+        required
+        onChange={handleTextField}
         variant="outlined"
         label="Estado"
         margin="normal"
       />
       <TextField
         id="city"
-        value='{city}'
+        value={city}
         type='text'
-        //onChange={handleTextField}
+        required
+        onChange={handleTextField}
         variant="outlined"
         label="Cidade"
         margin="normal"
       />
-      <Button type='button' variant="contained" onClick={props.nextStep} fullWidth>
+      <Button type='submit' variant="contained" fullWidth>
         Finalizar Cadastro
       </Button>
     </form>
